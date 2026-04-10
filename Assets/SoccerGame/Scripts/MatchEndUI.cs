@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MatchEndUI : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MatchEndUI : MonoBehaviour
     public TextMeshProUGUI resultText;
     public TextMeshProUGUI finalScoreText;
     public Button restartButton;
+    public Button menuButton;
 
     private void OnEnable()
     {
@@ -18,6 +20,12 @@ public class MatchEndUI : MonoBehaviour
         {
             restartButton.onClick.RemoveListener(OnRestart);
             restartButton.onClick.AddListener(OnRestart);
+        }
+
+        if (menuButton != null)
+        {
+            menuButton.onClick.RemoveListener(OnMenu);
+            menuButton.onClick.AddListener(OnMenu);
         }
     }
 
@@ -43,5 +51,13 @@ public class MatchEndUI : MonoBehaviour
     {
         panel.SetActive(false);
         MatchManager.Instance.ResetMatch();
+    }
+
+    private void OnMenu()
+    {
+        if (GameStarter.Instance != null)
+            Destroy(GameStarter.Instance.gameObject);
+
+        SceneManager.LoadScene("MainMenu");
     }
 }

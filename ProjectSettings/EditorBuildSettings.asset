@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/SoccerGame/Scenes/MainMenu.unity
+    guid: 4ccb90652b331d947b9336de5f5dbae3
+  - enabled: 1
     path: Assets/SoccerGame/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/SoccerGame/Scenes/Game.unity
+    guid: 22798c7b1674a724d8b8a9e090b48c56
   m_configObjects: {}

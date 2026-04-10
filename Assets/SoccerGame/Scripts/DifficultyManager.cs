@@ -25,10 +25,6 @@ public class DifficultyManager : MonoBehaviour
             return;
         }
         Instance = this;
-    }
-
-    private void Start()
-    {
         StoreBases();
     }
 
