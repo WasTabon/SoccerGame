@@ -7,11 +7,14 @@ public class MatchManager : MonoBehaviour
 
     public Ball ball;
     public float respawnDelay = 1f;
+    public int winScore = 5;
 
     public int playerScore { get; private set; }
     public int opponentScore { get; private set; }
+    public bool isMatchOver { get; private set; }
 
     public static event Action<int, int> OnScoreChanged;
+    public static event Action<bool> OnMatchEnd;
 
     private void Awake()
     {
@@ -36,21 +39,35 @@ public class MatchManager : MonoBehaviour
 
     private void HandleGoal(bool isPlayerGoal)
     {
+        if (isMatchOver) return;
+
         if (isPlayerGoal)
         {
             opponentScore++;
-            Debug.Log("Opponent scored! " + playerScore + " - " + opponentScore);
         }
         else
         {
             playerScore++;
-            Debug.Log("Player scored! " + playerScore + " - " + opponentScore);
         }
 
         OnScoreChanged?.Invoke(playerScore, opponentScore);
 
         ball.gameObject.SetActive(false);
-        Invoke(nameof(RespawnBall), respawnDelay);
+
+        if (playerScore >= winScore)
+        {
+            isMatchOver = true;
+            OnMatchEnd?.Invoke(true);
+        }
+        else if (opponentScore >= winScore)
+        {
+            isMatchOver = true;
+            OnMatchEnd?.Invoke(false);
+        }
+        else
+        {
+            Invoke(nameof(RespawnBall), respawnDelay);
+        }
     }
 
     private void RespawnBall()
@@ -65,6 +82,7 @@ public class MatchManager : MonoBehaviour
 
     public void ResetMatch()
     {
+        isMatchOver = false;
         playerScore = 0;
         opponentScore = 0;
         OnScoreChanged?.Invoke(playerScore, opponentScore);
