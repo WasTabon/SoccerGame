@@ -83,9 +83,17 @@ public class MatchEndUI : MonoBehaviour
     private void OnMenu()
     {
         Time.timeScale = 1f;
-        if (GameStarter.Instance != null)
-            Destroy(GameStarter.Instance.gameObject);
+        GoToMenu();
+    }
 
-        SceneManager.LoadScene("MainMenu");
+    public static void GoToMenu()
+    {
+        if (GameStarter.Instance != null)
+            Object.Destroy(GameStarter.Instance.gameObject);
+
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.LoadScene("MainMenu");
+        else
+            SceneManager.LoadScene("MainMenu");
     }
 }

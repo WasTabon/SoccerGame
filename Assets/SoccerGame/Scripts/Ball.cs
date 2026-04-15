@@ -5,6 +5,7 @@ public class Ball : MonoBehaviour
     public float initialSpeed = 8f;
     public float minSpeed = 5f;
     public float maxSpeed = 20f;
+    public bool autoLaunch = true;
 
     private Rigidbody2D rb;
 
@@ -16,7 +17,8 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
-        Launch();
+        if (autoLaunch)
+            Launch();
     }
 
     public void Launch()
@@ -35,6 +37,7 @@ public class Ball : MonoBehaviour
     private void ClampSpeed()
     {
         float speed = rb.velocity.magnitude;
+        if (speed < 0.1f) return;
         if (speed < minSpeed)
             rb.velocity = rb.velocity.normalized * minSpeed;
         else if (speed > maxSpeed)

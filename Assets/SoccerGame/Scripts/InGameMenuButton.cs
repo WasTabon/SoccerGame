@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndlessMenuButton : MonoBehaviour
+public class InGameMenuButton : MonoBehaviour
 {
     private void OnEnable()
     {
         Button btn = GetComponent<Button>();
-        Debug.Assert(btn != null, "EndlessMenuButton: Button not found!");
+        Debug.Assert(btn != null, "InGameMenuButton: Button not found!");
         btn.onClick.RemoveListener(GoToMenu);
         btn.onClick.AddListener(GoToMenu);
     }
