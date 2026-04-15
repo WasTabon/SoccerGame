@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class Flipper : MonoBehaviour
 {
@@ -8,11 +9,15 @@ public class Flipper : MonoBehaviour
 
     private HingeJoint2D hinge;
     private bool isActivated;
+    private SpriteRenderer sr;
+    private Color baseColor;
 
     private void Awake()
     {
         hinge = GetComponent<HingeJoint2D>();
         Debug.Assert(hinge != null, "Flipper: HingeJoint2D not found!");
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) baseColor = sr.color;
     }
 
     public void Activate()
@@ -45,5 +50,21 @@ public class Flipper : MonoBehaviour
         dir.y = Mathf.Abs(dir.y);
         ballRb.velocity = Vector2.zero;
         ballRb.AddForce(dir * motorSpeed * hitForceMultiplier * 0.01f, ForceMode2D.Impulse);
+
+        BallEffects be = ball.GetComponent<BallEffects>();
+        if (be != null) be.PlayHitEffect(dir);
+
+        if (ScreenShake.Instance != null)
+            ScreenShake.Instance.ShakeLight();
+
+        PlayFlipperHitEffect();
+    }
+
+    private void PlayFlipperHitEffect()
+    {
+        if (sr == null) return;
+        sr.DOComplete();
+        sr.DOColor(Color.white, 0.05f)
+            .OnComplete(() => sr.DOColor(baseColor, 0.15f));
     }
 }

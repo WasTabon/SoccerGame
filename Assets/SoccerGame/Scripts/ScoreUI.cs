@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class ScoreUI : MonoBehaviour
 {
@@ -24,5 +25,7 @@ public class ScoreUI : MonoBehaviour
     private void UpdateScore(int player, int opponent)
     {
         scoreText.text = player + " - " + opponent;
+        scoreText.transform.DOComplete();
+        scoreText.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 5).SetUpdate(true);
     }
 }
