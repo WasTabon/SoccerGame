@@ -38,7 +38,8 @@ public class MatchEndUI : MonoBehaviour
 
     private void Start()
     {
-        panel.SetActive(false);
+        if (panel != null)
+            panel.SetActive(false);
     }
 
     private void ShowResult(bool playerWon)
