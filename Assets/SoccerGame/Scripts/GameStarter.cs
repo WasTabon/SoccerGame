@@ -5,6 +5,7 @@ public class GameStarter : MonoBehaviour
 {
     public static GameStarter Instance { get; private set; }
     public GameMode selectedMode = GameMode.Match;
+    public int selectedLevel = 1;
 
     private void Awake()
     {
@@ -51,21 +52,9 @@ public class GameStarter : MonoBehaviour
             ball.gameObject.SetActive(false);
         }
 
-        MatchManager.Instance.SetGameMode(selectedMode);
-
-        GameObject scorePanel = GameObject.Find("GameCanvas")?.transform.Find("ScorePanel")?.gameObject;
-        GameObject endlessPanel = GameObject.Find("GameCanvas")?.transform.Find("EndlessPanel")?.gameObject;
-
-        if (selectedMode == GameMode.Match)
-        {
-            if (scorePanel != null) scorePanel.SetActive(true);
-            if (endlessPanel != null) endlessPanel.SetActive(false);
-        }
-        else
-        {
-            if (scorePanel != null) scorePanel.SetActive(false);
-            if (endlessPanel != null) endlessPanel.SetActive(true);
-        }
+        SpawnObstacles();
+        SetupMode();
+        SetupUI();
 
         if (CountdownUI.Instance != null)
         {
@@ -77,6 +66,51 @@ public class GameStarter : MonoBehaviour
         {
             OnCountdownDone();
         }
+    }
+
+    private void SpawnObstacles()
+    {
+        if (ObstacleSpawner.Instance == null)
+        {
+            Debug.LogWarning("GameStarter: ObstacleSpawner not found!");
+            return;
+        }
+
+        if (selectedMode == GameMode.Levels)
+        {
+            LevelConfig config = LevelDatabase.GetLevel(selectedLevel);
+            ObstacleSpawner.Instance.SpawnForLevel(config);
+        }
+        else
+        {
+            ObstacleSpawner.Instance.SpawnForMatchEndless();
+        }
+    }
+
+    private void SetupMode()
+    {
+        if (selectedMode == GameMode.Levels)
+        {
+            MatchManager.Instance.SetupLevel(selectedLevel);
+        }
+        else
+        {
+            MatchManager.Instance.SetGameMode(selectedMode);
+        }
+    }
+
+    private void SetupUI()
+    {
+        Transform canvasT = GameObject.Find("GameCanvas")?.transform;
+        if (canvasT == null) return;
+
+        GameObject scorePanel = canvasT.Find("ScorePanel")?.gameObject;
+        GameObject endlessPanel = canvasT.Find("EndlessPanel")?.gameObject;
+        GameObject levelPanel = canvasT.Find("LevelPanel")?.gameObject;
+
+        if (scorePanel != null) scorePanel.SetActive(selectedMode == GameMode.Match);
+        if (endlessPanel != null) endlessPanel.SetActive(selectedMode == GameMode.Endless);
+        if (levelPanel != null) levelPanel.SetActive(selectedMode == GameMode.Levels);
     }
 
     private void OnCountdownDone()
@@ -93,6 +127,16 @@ public class GameStarter : MonoBehaviour
     public void StartGame(GameMode mode)
     {
         selectedMode = mode;
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.LoadScene("Game");
+        else
+            SceneManager.LoadScene("Game");
+    }
+
+    public void StartLevel(int level)
+    {
+        selectedMode = GameMode.Levels;
+        selectedLevel = level;
         if (SceneTransition.Instance != null)
             SceneTransition.Instance.LoadScene("Game");
         else
