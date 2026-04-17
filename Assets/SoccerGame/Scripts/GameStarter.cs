@@ -101,16 +101,29 @@ public class GameStarter : MonoBehaviour
 
     private void SetupUI()
     {
-        Transform canvasT = GameObject.Find("GameCanvas")?.transform;
-        if (canvasT == null) return;
+        GameObject canvasObj = GameObject.Find("GameCanvas");
+        if (canvasObj == null) return;
 
-        GameObject scorePanel = canvasT.Find("ScorePanel")?.gameObject;
-        GameObject endlessPanel = canvasT.Find("EndlessPanel")?.gameObject;
-        GameObject levelPanel = canvasT.Find("LevelPanel")?.gameObject;
+        GameObject scorePanel = FindInChildren(canvasObj.transform, "ScorePanel");
+        GameObject endlessPanel = FindInChildren(canvasObj.transform, "EndlessPanel");
+        GameObject levelPanel = FindInChildren(canvasObj.transform, "LevelPanel");
 
         if (scorePanel != null) scorePanel.SetActive(selectedMode == GameMode.Match);
         if (endlessPanel != null) endlessPanel.SetActive(selectedMode == GameMode.Endless);
         if (levelPanel != null) levelPanel.SetActive(selectedMode == GameMode.Levels);
+    }
+
+    private GameObject FindInChildren(Transform parent, string name)
+    {
+        Transform t = parent.Find(name);
+        if (t != null) return t.gameObject;
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            GameObject result = FindInChildren(parent.GetChild(i), name);
+            if (result != null) return result;
+        }
+        return null;
     }
 
     private void OnCountdownDone()
