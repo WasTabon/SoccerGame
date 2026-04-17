@@ -7,6 +7,7 @@ public class MainMenuUI : MonoBehaviour
     public Button endlessButton;
     public Button levelsButton;
     public LevelSelectUI levelSelectUI;
+    public TutorialUI tutorialUI;
 
     private void OnEnable()
     {
@@ -29,6 +30,14 @@ public class MainMenuUI : MonoBehaviour
         endlessButton.onClick.RemoveListener(OnEndlessClicked);
         if (levelsButton != null)
             levelsButton.onClick.RemoveListener(OnLevelsClicked);
+    }
+
+    private void Start()
+    {
+        if (tutorialUI != null && tutorialUI.ShouldShow())
+        {
+            tutorialUI.Show();
+        }
     }
 
     private void OnMatchClicked()
