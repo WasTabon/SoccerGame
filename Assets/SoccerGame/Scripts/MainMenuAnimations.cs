@@ -1,13 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-using UnityEngine.UI;
 
 public class MainMenuAnimations : MonoBehaviour
 {
     public RectTransform titleRect;
     public RectTransform matchButtonRect;
     public RectTransform endlessButtonRect;
+    public RectTransform levelsButtonRect;
 
     private void OnEnable()
     {
@@ -33,6 +33,7 @@ public class MainMenuAnimations : MonoBehaviour
 
         AnimateButton(matchButtonRect, 0.3f);
         AnimateButton(endlessButtonRect, 0.45f);
+        AnimateButton(levelsButtonRect, 0.6f);
     }
 
     private void AnimateButton(RectTransform rect, float delay)
