@@ -6,7 +6,7 @@ public class ObstacleSpawner : MonoBehaviour
     public static ObstacleSpawner Instance { get; private set; }
 
     public PhysicsMaterial2D bounceMaterial;
-    public Sprite squareSprite;
+    public Sprite[] obstacleSprites;
 
     private Transform obstaclesParent;
 
@@ -73,7 +73,13 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    private GameObject CreateBase(string name, Vector2 pos, Vector2 size, Color color)
+    private Sprite GetRandomSprite()
+    {
+        if (obstacleSprites == null || obstacleSprites.Length == 0) return null;
+        return obstacleSprites[Random.Range(0, obstacleSprites.Length)];
+    }
+
+    private GameObject CreateBase(string name, Vector2 pos, Vector2 size, Color fallbackColor)
     {
         GameObject obj = new GameObject(name);
         obj.transform.SetParent(obstaclesParent);
@@ -81,8 +87,9 @@ public class ObstacleSpawner : MonoBehaviour
         obj.transform.localScale = new Vector3(size.x, size.y, 1f);
 
         SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
-        sr.sprite = squareSprite;
-        sr.color = color;
+        Sprite sprite = GetRandomSprite();
+        sr.sprite = sprite;
+        sr.color = sprite != null ? Color.white : fallbackColor;
         sr.sortingOrder = 2;
 
         BoxCollider2D col = obj.AddComponent<BoxCollider2D>();
