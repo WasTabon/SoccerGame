@@ -1124,9 +1124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b3fc6c4452f3f47a2bdab71c45a6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSpeed: 8
-  minSpeed: 5
-  maxSpeed: 20
+  initialSpeed: 5
+  minSpeed: 3
+  maxSpeed: 12
   autoLaunch: 1
 --- !u!50 &356807052
 Rigidbody2D:
@@ -3250,7 +3250,7 @@ MonoBehaviour:
   reactionDelay: 0.3
   minX: -1.2
   maxX: 1.2
-  deflectForce: 8
+  deflectForce: 4
 --- !u!50 &1025937090
 Rigidbody2D:
   serializedVersion: 4
@@ -3423,9 +3423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a744f1703ec2c48acf7d19ce8f7967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorSpeed: -2000
+  motorSpeed: -1200
   restMotorSpeed: 1000
-  hitForceMultiplier: 1.5
+  hitForceMultiplier: 0.8
 --- !u!233 &1066164401
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -5611,9 +5611,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a744f1703ec2c48acf7d19ce8f7967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorSpeed: 2000
+  motorSpeed: 1200
   restMotorSpeed: -1000
-  hitForceMultiplier: 1.5
+  hitForceMultiplier: 0.8
 --- !u!233 &1829030497
 HingeJoint2D:
   m_ObjectHideFlags: 0
