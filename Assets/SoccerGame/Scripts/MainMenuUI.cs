@@ -6,8 +6,10 @@ public class MainMenuUI : MonoBehaviour
     public Button matchButton;
     public Button endlessButton;
     public Button levelsButton;
+    public Button shopButton;
     public LevelSelectUI levelSelectUI;
     public TutorialUI tutorialUI;
+    public SkinShopUI skinShopUI;
 
     private void OnEnable()
     {
@@ -22,6 +24,12 @@ public class MainMenuUI : MonoBehaviour
             levelsButton.onClick.RemoveListener(OnLevelsClicked);
             levelsButton.onClick.AddListener(OnLevelsClicked);
         }
+
+        if (shopButton != null)
+        {
+            shopButton.onClick.RemoveListener(OnShopClicked);
+            shopButton.onClick.AddListener(OnShopClicked);
+        }
     }
 
     private void OnDisable()
@@ -30,14 +38,14 @@ public class MainMenuUI : MonoBehaviour
         endlessButton.onClick.RemoveListener(OnEndlessClicked);
         if (levelsButton != null)
             levelsButton.onClick.RemoveListener(OnLevelsClicked);
+        if (shopButton != null)
+            shopButton.onClick.RemoveListener(OnShopClicked);
     }
 
     private void Start()
     {
         if (tutorialUI != null && tutorialUI.ShouldShow())
-        {
             tutorialUI.Show();
-        }
     }
 
     private void OnMatchClicked()
@@ -54,6 +62,12 @@ public class MainMenuUI : MonoBehaviour
     {
         if (levelSelectUI != null)
             levelSelectUI.Show();
+    }
+
+    private void OnShopClicked()
+    {
+        if (skinShopUI != null)
+            skinShopUI.Show();
     }
 
     private GameStarter GetOrCreateGameStarter()
