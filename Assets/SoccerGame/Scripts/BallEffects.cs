@@ -99,7 +99,7 @@ public class BallEffects : MonoBehaviour
             psr.sprite = sr != null ? sr.sprite : null;
             psr.color = color;
             psr.sortingOrder = 15;
-            particle.transform.localScale = Vector3.one * Random.Range(0.05f, 0.12f);
+            particle.transform.localScale = Vector3.one * Random.Range(0.15f, 0.30f);
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             float spread = Random.Range(-60f, 60f);
