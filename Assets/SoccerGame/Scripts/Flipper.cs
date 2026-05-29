@@ -3,8 +3,8 @@ using DG.Tweening;
 
 public class Flipper : MonoBehaviour
 {
-    public float motorSpeed = 2000f;
-    public float restMotorSpeed = -1000f;
+    public float motorSpeed = 3000f;
+    public float restMotorSpeed = -1500f;
     public float hitForceMultiplier = 1.5f;
 
     private HingeJoint2D hinge;
