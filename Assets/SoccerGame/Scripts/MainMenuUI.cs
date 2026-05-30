@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MainMenuUI : MonoBehaviour
     public LevelSelectUI levelSelectUI;
     public TutorialUI tutorialUI;
     public SkinShopUI skinShopUI;
+    public GameObject noLivesPopup;
+    public TextMeshProUGUI bestScoreText;
 
     private void OnEnable()
     {
@@ -46,20 +49,44 @@ public class MainMenuUI : MonoBehaviour
     {
         if (tutorialUI != null && tutorialUI.ShouldShow())
             tutorialUI.Show();
+
+        UpdateBestScore();
+    }
+
+    private void UpdateBestScore()
+    {
+        if (bestScoreText != null)
+        {
+            int best = PlayerPrefs.GetInt("EndlessBestScore", 0);
+            bestScoreText.text = "BEST: " + best;
+        }
+    }
+
+    private bool CheckLives()
+    {
+        if (LivesManager.Instance != null && !LivesManager.Instance.HasLives())
+        {
+            if (noLivesPopup != null) noLivesPopup.SetActive(true);
+            return false;
+        }
+        return true;
     }
 
     private void OnMatchClicked()
     {
+        if (!CheckLives()) return;
         GetOrCreateGameStarter().StartGame(GameMode.Match);
     }
 
     private void OnEndlessClicked()
     {
+        if (!CheckLives()) return;
         GetOrCreateGameStarter().StartGame(GameMode.Endless);
     }
 
     private void OnLevelsClicked()
     {
+        if (!CheckLives()) return;
         if (levelSelectUI != null)
             levelSelectUI.Show();
     }
