@@ -3,11 +3,14 @@ using UnityEngine;
 public class BallSkinApplier : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private Sprite defaultSprite;
     private BallGlow glow;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            defaultSprite = sr.sprite;
     }
 
     private void Start()
@@ -39,7 +42,18 @@ public class BallSkinApplier : MonoBehaviour
         if (skin == null) return;
 
         if (sr != null)
-            sr.color = skin.color;
+        {
+            if (skin.ballSprite != null)
+            {
+                sr.sprite = skin.ballSprite;
+                sr.color = Color.white;
+            }
+            else
+            {
+                sr.sprite = defaultSprite;
+                sr.color = skin.color;
+            }
+        }
 
         glow = GetComponentInChildren<BallGlow>();
         if (glow != null)

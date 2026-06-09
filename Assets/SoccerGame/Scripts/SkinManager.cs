@@ -8,7 +8,8 @@ public class SkinData
     public string id;
     public string displayName;
     public int price;
-    public Color color;
+    public Color color = Color.white;
+    public Sprite ballSprite;
 }
 
 public class SkinManager : MonoBehaviour

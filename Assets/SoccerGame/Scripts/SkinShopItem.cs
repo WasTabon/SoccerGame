@@ -21,7 +21,17 @@ public class SkinShopItem : MonoBehaviour
     {
         skinData = skin;
 
-        previewImage.color = skin.color;
+        if (skin.ballSprite != null)
+        {
+            previewImage.sprite = skin.ballSprite;
+            previewImage.color = Color.white;
+        }
+        else
+        {
+            previewImage.sprite = null;
+            previewImage.color = skin.color;
+        }
+
         nameText.text = skin.displayName;
 
         if (equipped)
